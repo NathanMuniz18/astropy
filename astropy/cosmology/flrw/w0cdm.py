@@ -5,7 +5,7 @@
 import numpy as np
 from numpy import sqrt
 
-from astropy.cosmology._utils import aszarr, deprecated_keywords
+from astropy.cosmology._utils import aszarr
 from astropy.cosmology.core import dataclass_decorator
 from astropy.cosmology.parameter import Parameter
 
@@ -117,8 +117,7 @@ class wCDM(FLRW):
         object.__setattr__(self, "_inv_efunc_scalar", inv_efunc_scalar)
         object.__setattr__(self, "_inv_efunc_scalar_args", inv_efunc_scalar_args)
 
-    @deprecated_keywords("z", since="7.0")
-    def w(self, z):
+    def w(self, z, /):
         r"""Returns dark energy equation of state at redshift ``z``.
 
         Parameters
@@ -145,8 +144,7 @@ class wCDM(FLRW):
         z = aszarr(z)
         return self.w0 * (np.ones(z.shape) if hasattr(z, "shape") else 1.0)
 
-    @deprecated_keywords("z", since="7.0")
-    def de_density_scale(self, z):
+    def de_density_scale(self, z, /):
         r"""Evaluates the redshift dependence of the dark energy density.
 
         Parameters
@@ -171,8 +169,7 @@ class wCDM(FLRW):
         """
         return (aszarr(z) + 1.0) ** (3.0 * (1.0 + self.w0))
 
-    @deprecated_keywords("z", since="7.0")
-    def efunc(self, z):
+    def efunc(self, z, /):
         """Function used to calculate H(z), the Hubble parameter.
 
         Parameters
@@ -202,8 +199,7 @@ class wCDM(FLRW):
             + self.Ode0 * zp1 ** (3.0 * (1.0 + self.w0))
         )
 
-    @deprecated_keywords("z", since="7.0")
-    def inv_efunc(self, z):
+    def inv_efunc(self, z, /):
         r"""Function used to calculate :math:`\frac{1}{H_z}`.
 
         Parameters
@@ -329,8 +325,7 @@ class FlatwCDM(FlatFLRWMixin, wCDM):
         object.__setattr__(self, "_inv_efunc_scalar", inv_efunc_scalar)
         object.__setattr__(self, "_inv_efunc_scalar_args", inv_efunc_scalar_args)
 
-    @deprecated_keywords("z", since="7.0")
-    def efunc(self, z):
+    def efunc(self, z, /):
         """Function used to calculate H(z), the Hubble parameter.
 
         Parameters
@@ -359,8 +354,7 @@ class FlatwCDM(FlatFLRWMixin, wCDM):
             zp1**3 * (Or * zp1 + self.Om0) + self.Ode0 * zp1 ** (3.0 * (1 + self.w0))
         )
 
-    @deprecated_keywords("z", since="7.0")
-    def inv_efunc(self, z):
+    def inv_efunc(self, z, /):
         r"""Function used to calculate :math:`\frac{1}{H_z}`.
 
         Parameters

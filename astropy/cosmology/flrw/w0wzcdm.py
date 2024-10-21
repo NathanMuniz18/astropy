@@ -4,7 +4,7 @@
 
 from numpy import exp
 
-from astropy.cosmology._utils import aszarr, deprecated_keywords
+from astropy.cosmology._utils import aszarr
 from astropy.cosmology.core import dataclass_decorator
 from astropy.cosmology.parameter import Parameter
 
@@ -134,8 +134,7 @@ class w0wzCDM(FLRW):
         object.__setattr__(self, "_inv_efunc_scalar", inv_efunc_scalar)
         object.__setattr__(self, "_inv_efunc_scalar_args", inv_efunc_scalar_args)
 
-    @deprecated_keywords("z", since="7.0")
-    def w(self, z):
+    def w(self, z, /):
         r"""Returns dark energy equation of state at redshift ``z``.
 
         Parameters
@@ -161,8 +160,7 @@ class w0wzCDM(FLRW):
         """
         return self.w0 + self.wz * aszarr(z)
 
-    @deprecated_keywords("z", since="7.0")
-    def de_density_scale(self, z):
+    def de_density_scale(self, z, /):
         r"""Evaluates the redshift dependence of the dark energy density.
 
         Parameters

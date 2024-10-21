@@ -6,7 +6,7 @@ from numbers import Number
 import numpy as np
 from numpy import log
 
-from astropy.cosmology._utils import aszarr, deprecated_keywords
+from astropy.cosmology._utils import aszarr
 from astropy.cosmology.core import dataclass_decorator
 from astropy.utils.compat.optional_deps import HAS_SCIPY
 
@@ -150,8 +150,7 @@ class LambdaCDM(FLRW):
         object.__setattr__(self, "_age", age)
         object.__setattr__(self, "_lookback_time", lookback_time)
 
-    @deprecated_keywords("z", since="7.0")
-    def w(self, z):
+    def w(self, z, /):
         r"""Returns dark energy equation of state at redshift ``z``.
 
         Parameters
@@ -178,8 +177,7 @@ class LambdaCDM(FLRW):
         z = aszarr(z)
         return -1.0 * (np.ones(z.shape) if hasattr(z, "shape") else 1.0)
 
-    @deprecated_keywords("z", since="7.0")
-    def de_density_scale(self, z):
+    def de_density_scale(self, z, /):
         r"""Evaluates the redshift dependence of the dark energy density.
 
         Parameters
@@ -575,8 +573,7 @@ class LambdaCDM(FLRW):
         """
         return self._flat_age(0) - self._flat_age(z)
 
-    @deprecated_keywords("z", since="7.0")
-    def efunc(self, z):
+    def efunc(self, z, /):
         """Function used to calculate H(z), the Hubble parameter.
 
         Parameters
@@ -605,8 +602,7 @@ class LambdaCDM(FLRW):
 
         return np.sqrt(zp1**2 * ((Or * zp1 + self.Om0) * zp1 + self.Ok0) + self.Ode0)
 
-    @deprecated_keywords("z", since="7.0")
-    def inv_efunc(self, z):
+    def inv_efunc(self, z, /):
         r"""Function used to calculate :math:`\frac{1}{H_z}`.
 
         Parameters
@@ -726,8 +722,7 @@ class FlatLambdaCDM(FlatFLRWMixin, LambdaCDM):
         object.__setattr__(self, "_inv_efunc_scalar", inv_efunc_scalar)
         object.__setattr__(self, "_inv_efunc_scalar_args", inv_efunc_scalar_args)
 
-    @deprecated_keywords("z", since="7.0")
-    def efunc(self, z):
+    def efunc(self, z, /):
         """Function used to calculate H(z), the Hubble parameter.
 
         Parameters
@@ -756,8 +751,7 @@ class FlatLambdaCDM(FlatFLRWMixin, LambdaCDM):
 
         return np.sqrt(zp1**3 * (Or * zp1 + self.Om0) + self.Ode0)
 
-    @deprecated_keywords("z", since="7.0")
-    def inv_efunc(self, z):
+    def inv_efunc(self, z, /):
         r"""Function used to calculate :math:`\frac{1}{H_z}`.
 
         Parameters

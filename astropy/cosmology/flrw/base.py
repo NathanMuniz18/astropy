@@ -22,7 +22,6 @@ import astropy.constants as const
 import astropy.units as u
 from astropy.cosmology._utils import (
     aszarr,
-    deprecated_keywords,
     vectorize_redshift_method,
 )
 from astropy.cosmology.core import Cosmology, FlatCosmologyMixin, dataclass_decorator
@@ -89,8 +88,7 @@ class _ScaleFactorMixin:
         """
         return u.Quantity(self.scale_factor(0), unit=u.one)
 
-    @deprecated_keywords("z", since="7.0")
-    def scale_factor(self, z):
+    def scale_factor(self, z, /):
         """Scale factor at redshift ``z``.
 
         The scale factor is defined as :math:`a = 1 / (1 + z)`.
@@ -392,8 +390,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
     # ---------------------------------------------------------------
 
     @abstractmethod
-    @deprecated_keywords("z", since="7.0")
-    def w(self, z):
+    def w(self, z, /):
         r"""The dark energy equation of state.
 
         Parameters
@@ -421,8 +418,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         raise NotImplementedError("w(z) is not implemented")
 
-    @deprecated_keywords("z", since="7.0")
-    def Otot(self, z):
+    def Otot(self, z, /):
         """The total density parameter at redshift ``z``.
 
         Parameters
@@ -441,8 +437,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.Om(z) + self.Ogamma(z) + self.Onu(z) + self.Ode(z) + self.Ok(z)
 
-    @deprecated_keywords("z", since="7.0")
-    def Om(self, z):
+    def Om(self, z, /):
         """Return the density parameter for non-relativistic matter at redshift ``z``.
 
         Parameters
@@ -468,8 +463,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         z = aszarr(z)
         return self.Om0 * (z + 1.0) ** 3 * self.inv_efunc(z) ** 2
 
-    @deprecated_keywords("z", since="7.0")
-    def Ob(self, z):
+    def Ob(self, z, /):
         """Return the density parameter for baryonic matter at redshift ``z``.
 
         Parameters
@@ -495,8 +489,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         z = aszarr(z)
         return self.Ob0 * (z + 1.0) ** 3 * self.inv_efunc(z) ** 2
 
-    @deprecated_keywords("z", since="7.0")
-    def Odm(self, z):
+    def Odm(self, z, /):
         """Return the density parameter for dark matter at redshift ``z``.
 
         Parameters
@@ -532,8 +525,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         z = aszarr(z)
         return self.Odm0 * (z + 1.0) ** 3 * self.inv_efunc(z) ** 2
 
-    @deprecated_keywords("z", since="7.0")
-    def Ok(self, z):
+    def Ok(self, z, /):
         """Return the equivalent density parameter for curvature at redshift ``z``.
 
         Parameters
@@ -555,8 +547,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
             return np.zeros(z.shape) if hasattr(z, "shape") else 0.0
         return self.Ok0 * (z + 1.0) ** 2 * self.inv_efunc(z) ** 2
 
-    @deprecated_keywords("z", since="7.0")
-    def Ode(self, z):
+    def Ode(self, z, /):
         """Return the density parameter for dark energy at redshift ``z``.
 
         Parameters
@@ -579,8 +570,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
             return np.zeros(z.shape) if hasattr(z, "shape") else 0.0
         return self.Ode0 * self.de_density_scale(z) * self.inv_efunc(z) ** 2
 
-    @deprecated_keywords("z", since="7.0")
-    def Ogamma(self, z):
+    def Ogamma(self, z, /):
         """Return the density parameter for photons at redshift ``z``.
 
         Parameters
@@ -601,8 +591,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         z = aszarr(z)
         return self.Ogamma0 * (z + 1.0) ** 4 * self.inv_efunc(z) ** 2
 
-    @deprecated_keywords("z", since="7.0")
-    def Onu(self, z):
+    def Onu(self, z, /):
         r"""Return the density parameter for neutrinos at redshift ``z``.
 
         Parameters
@@ -628,8 +617,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
             return np.zeros(z.shape) if hasattr(z, "shape") else 0.0
         return self.Ogamma(z) * self.nu_relative_density(z)
 
-    @deprecated_keywords("z", since="7.0")
-    def Tcmb(self, z):
+    def Tcmb(self, z, /):
         """Return the CMB temperature at redshift ``z``.
 
         Parameters
@@ -647,8 +635,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.Tcmb0 * (aszarr(z) + 1.0)
 
-    @deprecated_keywords("z", since="7.0")
-    def Tnu(self, z):
+    def Tnu(self, z, /):
         """Return the neutrino temperature at redshift ``z``.
 
         Parameters
@@ -666,8 +653,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.Tnu0 * (aszarr(z) + 1.0)
 
-    @deprecated_keywords("z", since="7.0")
-    def nu_relative_density(self, z):
+    def nu_relative_density(self, z, /):
         r"""Neutrino density function relative to the energy density in photons.
 
         Parameters
@@ -757,8 +743,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return 1.0 + self.w(exp(ln1pz) - 1.0)
 
-    @deprecated_keywords("z", since="7.0")
-    def de_density_scale(self, z):
+    def de_density_scale(self, z, /):
         r"""Evaluates the redshift dependence of the dark energy density.
 
         Parameters
@@ -812,8 +797,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
             ival = quad(self._w_integrand, 0, log(z + 1.0))[0]
             return exp(3 * ival)
 
-    @deprecated_keywords("z", since="7.0")
-    def efunc(self, z):
+    def efunc(self, z, /):
         """Function used to calculate H(z), the Hubble parameter.
 
         Parameters
@@ -848,8 +832,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
             + self.Ode0 * self.de_density_scale(z)
         )
 
-    @deprecated_keywords("z", since="7.0")
-    def inv_efunc(self, z):
+    def inv_efunc(self, z, /):
         """Inverse of ``efunc``.
 
         Parameters
@@ -902,8 +885,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self._inv_efunc_scalar(z, *self._inv_efunc_scalar_args) / (z + 1.0)
 
-    @deprecated_keywords("z", since="7.0")
-    def lookback_time_integrand(self, z):
+    def lookback_time_integrand(self, z, /):
         """Integrand of the lookback time (equation 30 of [1]_).
 
         Parameters
@@ -949,8 +931,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return (z + 1.0) ** 2 * self._inv_efunc_scalar(z, *self._inv_efunc_scalar_args)
 
-    @deprecated_keywords("z", since="7.0")
-    def abs_distance_integrand(self, z):
+    def abs_distance_integrand(self, z, /):
         """Integrand of the absorption distance (eq. 4, [1]_).
 
         Parameters
@@ -973,8 +954,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         z = aszarr(z)
         return (z + 1.0) ** 2 * self.inv_efunc(z)
 
-    @deprecated_keywords("z", since="7.0")
-    def H(self, z):
+    def H(self, z, /):
         """Hubble parameter (km/s/Mpc) at redshift ``z``.
 
         Parameters
@@ -992,8 +972,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.H0 * self.efunc(z)
 
-    @deprecated_keywords("z", since="7.0")
-    def lookback_time(self, z):
+    def lookback_time(self, z, /):
         """Lookback time in Gyr to redshift ``z``.
 
         The lookback time is the difference between the age of the Universe now
@@ -1062,8 +1041,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return quad(self._lookback_time_integrand_scalar, 0, z)[0]
 
-    @deprecated_keywords("z", since="7.0")
-    def lookback_distance(self, z):
+    def lookback_distance(self, z, /):
         """The lookback distance is the light travel time distance to a given redshift.
 
         It is simply c * lookback_time. It may be used to calculate
@@ -1085,8 +1063,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return (self.lookback_time(z) * const.c).to(u.Mpc)
 
-    @deprecated_keywords("z", since="7.0")
-    def age(self, z):
+    def age(self, z, /):
         """Age of the universe in Gyr at redshift ``z``.
 
         Parameters
@@ -1151,8 +1128,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return quad(self._lookback_time_integrand_scalar, z, inf)[0]
 
-    @deprecated_keywords("z", since="7.0")
-    def critical_density(self, z):
+    def critical_density(self, z, /):
         """Critical density in grams per cubic cm at redshift ``z``.
 
         Parameters
@@ -1170,8 +1146,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.critical_density0 * (self.efunc(z)) ** 2
 
-    @deprecated_keywords("z", since="7.0")
-    def comoving_distance(self, z):
+    def comoving_distance(self, z, /):
         """Comoving line-of-sight distance in Mpc at a given redshift.
 
         The comoving distance along the line-of-sight between two objects
@@ -1257,8 +1232,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.hubble_distance * self._integral_comoving_distance_z1z2_scalar(z1, z2)  # fmt: skip
 
-    @deprecated_keywords("z", since="7.0")
-    def comoving_transverse_distance(self, z):
+    def comoving_transverse_distance(self, z, /):
         r"""Comoving transverse distance in Mpc at a given redshift.
 
         This value is the transverse comoving distance at redshift ``z``
@@ -1321,8 +1295,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         else:
             return dh / sqrtOk0 * sin(sqrtOk0 * dc.value / dh.value)
 
-    @deprecated_keywords("z", since="7.0")
-    def angular_diameter_distance(self, z):
+    def angular_diameter_distance(self, z, /):
         """Angular diameter distance in Mpc at a given redshift.
 
         This gives the proper (sometimes called 'physical') transverse
@@ -1351,8 +1324,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         z = aszarr(z)
         return self.comoving_transverse_distance(z) / (z + 1.0)
 
-    @deprecated_keywords("z", since="7.0")
-    def luminosity_distance(self, z):
+    def luminosity_distance(self, z, /):
         """Luminosity distance in Mpc at redshift ``z``.
 
         This is the distance to use when converting between the bolometric flux
@@ -1436,8 +1408,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return quad(self._abs_distance_integrand_scalar, 0, z)[0]
 
-    @deprecated_keywords("z", since="7.0")
-    def distmod(self, z):
+    def distmod(self, z, /):
         """Distance modulus at redshift ``z``.
 
         The distance modulus is defined as the (apparent magnitude - absolute
@@ -1467,8 +1438,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         val = 5.0 * np.log10(abs(self.luminosity_distance(z).value)) + 25.0
         return u.Quantity(val, u.mag)
 
-    @deprecated_keywords("z", since="7.0")
-    def comoving_volume(self, z):
+    def comoving_volume(self, z, /):
         r"""Comoving volume in cubic Mpc at redshift ``z``.
 
         This is the volume of the universe encompassed by redshifts less than
@@ -1503,8 +1473,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         else:
             return term1 * (term2 - 1.0 / sqrt(abs(Ok0)) * np.arcsin(term3))
 
-    @deprecated_keywords("z", since="7.0")
-    def differential_comoving_volume(self, z):
+    def differential_comoving_volume(self, z, /):
         """Differential comoving volume at redshift z.
 
         Useful for calculating the effective comoving volume.
@@ -1530,8 +1499,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         dm = self.comoving_transverse_distance(z)
         return self.hubble_distance * (dm**2.0) / (self.efunc(z) << u.steradian)
 
-    @deprecated_keywords("z", since="7.0")
-    def kpc_comoving_per_arcmin(self, z):
+    def kpc_comoving_per_arcmin(self, z, /):
         """Separation in transverse comoving kpc equal to an arcmin at redshift ``z``.
 
         Parameters
@@ -1550,8 +1518,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.comoving_transverse_distance(z).to(u.kpc) / _radian_in_arcmin
 
-    @deprecated_keywords("z", since="7.0")
-    def kpc_proper_per_arcmin(self, z):
+    def kpc_proper_per_arcmin(self, z, /):
         """Separation in transverse proper kpc equal to an arcminute at redshift ``z``.
 
         Parameters
@@ -1570,8 +1537,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return self.angular_diameter_distance(z).to(u.kpc) / _radian_in_arcmin
 
-    @deprecated_keywords("z", since="7.0")
-    def arcsec_per_kpc_comoving(self, z):
+    def arcsec_per_kpc_comoving(self, z, /):
         """Angular separation in arcsec equal to a comoving kpc at redshift ``z``.
 
         Parameters
@@ -1590,8 +1556,7 @@ class FLRW(Cosmology, _ScaleFactorMixin):
         """
         return _radian_in_arcsec / self.comoving_transverse_distance(z).to(u.kpc)
 
-    @deprecated_keywords("z", since="7.0")
-    def arcsec_per_kpc_proper(self, z):
+    def arcsec_per_kpc_proper(self, z, /):
         """Angular separation in arcsec corresponding to a proper kpc at redshift ``z``.
 
         Parameters
@@ -1672,8 +1637,7 @@ class FlatFLRWMixin(FlatCosmologyMixin):
         """Omega total; the total density/critical density at z=0."""
         return 1.0
 
-    @deprecated_keywords("z", since="7.0")
-    def Otot(self, z):
+    def Otot(self, z, /):
         """The total density parameter at redshift ``z``.
 
         Parameters
